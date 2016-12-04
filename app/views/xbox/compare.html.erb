@@ -1,0 +1,72 @@
+<% if @gamers.blank? %>
+    <div class="container">
+      <h3>Compare Games</h3>
+      <h4>Enter your Gamertags (comma separated, no spaces)</h4>
+      <form method="get">
+        <input type="text" class="form-control" name="names" id="names"/>
+        <input type="submit" class="btn btn-primary" value="Compare">
+      </form>
+    </div>
+<% else %>
+    <div class="container">
+      <h3>Comparing Games for <%= @gamers.collect { |g| link_to(g.name, "./#{g.name}") }.join(', ').html_safe %></h3>
+      <h5>Xbox One Games</h5>
+      <table class="table">
+        <thead>
+        <th></th>
+        <th>Name</th>
+        <th>Online Multiplayer</th>
+        <th>Coop Local</th>
+        <th>Coop Online</th>
+        <% @gamers.each do |gamer| %>
+            <th><%= gamer.name %></th>
+        <% end %>
+        </thead>
+        <tbody>
+        <% @full_one_games.each do |game| %>
+            <tr>
+              <td title="<%= game.id %>">
+                <img class="game-square" src="<%= game.cover_url %>">
+              </td>
+              <td><%= link_to(game.name, "game/#{game.id}") %></td>
+              <td><%= online_multiplayer(game.min_online, game.max_online) %></td>
+              <td><%= xbox_boolean game.local_coop || game.max_local > 1 %></td>
+              <td><%= xbox_boolean game.online_coop %></td>
+              <% @gamers.each do |gamer| %>
+                  <th><%= xbox_boolean(@games_one_compare[game.name].include?(gamer)) %></th>
+              <% end %>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <h5>Xbox 360 Games</h5>
+      <table class="table">
+        <thead>
+        <th></th>
+        <th>Name</th>
+        <th>Online Multiplayer</th>
+        <th>Coop Local</th>
+        <th>Coop Online</th>
+        <% @gamers.each do |gamer| %>
+            <th><%= gamer.name %></th>
+        <% end %>
+        </thead>
+        <tbody>
+        <% @full_360_games.each do |game| %>
+            <tr>
+              <td title="<%= game.id %>">
+                <img class="game-square" src="<%= game.cover_url %>">
+              </td>
+              <td><%= link_to(game.name, "game/#{game.id}") %></td>
+              <td><%= online_multiplayer(game.min_online, game.max_online) %></td>
+              <td><%= xbox_boolean game.local_coop || game.max_local > 1 %></td>
+              <td><%= xbox_boolean game.online_coop %></td>
+              <% @gamers.each do |gamer| %>
+                  <th><%= xbox_boolean(@games_360_compare[game.name].include?(gamer)) %></th>
+              <% end %>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+<% end %>

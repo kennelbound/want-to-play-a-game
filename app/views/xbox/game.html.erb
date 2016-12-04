@@ -1,0 +1,11 @@
+<div class="container">
+  <h3><%= @game.name %> (<%= @game.id.to_i.to_s(16) %>)</h3>
+  <div class="container">
+    <img class="game-square" src="<%= @game.cover_url %>">
+    <p><%= @game.description %></p>
+    <h6>Online: <%= @game.min_online %> - <%= @game.max_online %> Players</h6>
+    <h6>Max Local: <%= @game.max_local %> Players</h6>
+    <h6>Online Coop: <%= @game.online_coop %></h6>
+    <h6>Local Coop: <%= @game.local_coop %></h6>
+  </div>
+</div>

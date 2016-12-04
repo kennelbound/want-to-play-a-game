@@ -1,0 +1,74 @@
+<% if @gamer.blank? %>
+    <div class="container">
+      <h3>I'm sorry, that gamer tag could not be found.</h3>
+    </div>
+<% else %>
+    <div class="container">
+      <h3><%= @gamer_tag %> (<%= @gamer.id %>)</h3>
+      <h5>Friends</h5>
+      <table class="table">
+        <tbody>
+        <% @gamer.friends.each do |friend| %>
+            <tr>
+              <td>
+                <img class="game-square" src="<%= friend.pic %>">
+              </td>
+              <td><%= link_to(friend.name, "/xbox/#{friend.name}/#{friend.id}") %> (<%= friend.id %>)</td>
+              <td>Tier: <%= friend.account_tier %></td>
+              <td>Tenure: <%= friend.tenure %></td>
+              <td>Rep: <%= friend.rep %></td>
+              <td>Gamerscore: <%= friend.gamer_score %></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <h5>Xbox One Games</h5>
+      <table class="table">
+        <thead>
+        <th></th>
+        <th>Name</th>
+        <th>Online Multiplayer</th>
+        <th>Coop Local</th>
+        <th>Coop Online</th>
+        </thead>
+        <tbody>
+        <% @gamer.games_one.each do |game| %>
+            <tr>
+              <td title="<%= game.id %>">
+                <img class="game-square" src="<%= game.cover_url %>">
+              </td>
+              <td><%= link_to(game.name, "game/#{game.id}") %></td>
+              <td><%= online_multiplayer(game.min_online, game.max_online) %></td>
+              <td><%= xbox_boolean game.local_coop || game.max_local > 1 %></td>
+              <td><%= xbox_boolean game.online_coop %></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <h5>Xbox 360 Games</h5>
+      <table class="table">
+        <thead>
+        <th></th>
+        <th>Name</th>
+        <th>Online Multiplayer</th>
+        <th>Coop Local</th>
+        <th>Coop Online</th>
+        </thead>
+        <tbody>
+        <% @gamer.games_360.each do |game| %>
+            <% unless game.nil? || game.id.nil? %>
+                <tr>
+                  <td title="<%= game.id %>">
+                    <img class="game-square" src="<%= game.cover_url %>">
+                  </td>
+                  <td><%= link_to(game.name, "game/#{game.id}") %></td>
+                  <td><%= online_multiplayer(game.min_online, game.max_online) %></td>
+                  <td><%= xbox_boolean game.local_coop || game.max_local > 1 %></td>
+                  <td><%= xbox_boolean game.online_coop %></td>
+                </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+<% end %>
