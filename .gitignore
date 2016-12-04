@@ -22,3 +22,4 @@
 /db/development.sqlite3
 
 /cache/
+/vendor/xbox-api-wrapper-gem/xbox-api-wrapper-gem.iml
